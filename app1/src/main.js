@@ -6,7 +6,9 @@ import router from './router'
 Vue.config.productionTip = false
 
 let instance = null
-function render() {
+function render(props) {
+  console.log('render-props', props);
+
   instance = new Vue({
     router,
     render: h => h(App),
@@ -22,9 +24,10 @@ export async function bootstrap() {
   console.log('vue app bootstraped');
 }
 
-export async function mount() {
+export async function mount(props) {
   console.log('props from main framework');
-  render()
+  // render(props)
+  storeChange(props)
 }
 
 export async function unmount() {
@@ -32,4 +35,15 @@ export async function unmount() {
   instance.$destroy()
   instance.$el.innerHTML = ''
   instance = null
+}
+
+function storeChange (props) {
+  props.onGlobalStateChange((state, prev) => {
+    console.log('子应用变化后的状态', state, prev);
+  })
+  setTimeout(() => {
+    console.log('4s后修改名称');
+    props.setGlobalState({ name: '章鱼哥' })
+  }, 4000);
+  render(props)
 }

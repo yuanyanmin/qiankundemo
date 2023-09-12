@@ -6,7 +6,9 @@ export default {
       // container: '#box1',
       container: '#sub-container1',
       activeRule: '#/app1',
-      props: {}
+      props: {
+        nickName: '张三'
+      }
     },
     {
       name: 'app2',
